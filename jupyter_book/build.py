@@ -236,7 +236,7 @@ def build_book(path_book, path_toc_yaml=None, path_ssg_config=None,
                              path_book, PATH_IMAGES_FOLDER)
 
         # Split off original yaml
-        orig, lines = _split_yaml(lines)
+        yaml_orig, lines = _split_yaml(lines)
 
         # Front-matter YAML
         yaml_fm = []
