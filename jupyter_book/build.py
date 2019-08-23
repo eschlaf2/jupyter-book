@@ -133,6 +133,7 @@ def build_book(path_book, path_toc_yaml=None, path_ssg_config=None,
     for ix_file, page in enumerate(tqdm(list(toc))):
         url_page = page.get('url', None)
         title = page.get('title', None)
+        redirect_from = page.get('redirect_from', None)
         if page.get('external', None):
             # If its an external link, just pass
             continue
@@ -235,7 +236,7 @@ def build_book(path_book, path_toc_yaml=None, path_ssg_config=None,
                              path_book, PATH_IMAGES_FOLDER)
 
         # Split off original yaml
-        yaml_orig, lines = _split_yaml(lines)
+        orig, lines = _split_yaml(lines)
 
         # Front-matter YAML
         yaml_fm = []
@@ -251,6 +252,9 @@ def build_book(path_book, path_toc_yaml=None, path_ssg_config=None,
                     'sensitive FS, e.g. case-sensitive disk image on Mac')
             yaml_fm += ['redirect_from:']
             yaml_fm += ['  - "{}"'.format(sanitized)]
+            yaml_fm += ['  - "{}"'.format(redirect_from)]
+        else:
+            yaml_fm += ['redirect_from: {}'.format(redirect_from)]
         if path_url_page.endswith('.ipynb'):
             interact_path = CONTENT_FOLDER_NAME + '/' + \
                 path_url_page.split(CONTENT_FOLDER_NAME + '/')[-1]
